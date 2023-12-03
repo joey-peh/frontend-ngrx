@@ -1,0 +1,17 @@
+.dark-theme {
+    background-color: #B9B7BD;
+}
+
+.flex-container {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.spacer {
+    flex: 1 1 0;
+}
+
+.mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb:before {
+    content: "\f00c";
+    font: normal normal normal 14px/1 FontAwesome;
+}

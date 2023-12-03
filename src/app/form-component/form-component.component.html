@@ -1,0 +1,44 @@
+<mat-card>
+    <mat-card-title class="header">Add new user</mat-card-title>
+    <mat-card-content class="content">
+        <form [formGroup]="userForm" class="user-form">
+            <mat-form-field class="field-full-width">
+                <mat-label>Enter your name</mat-label>
+                <input matInput formControlName="name" required minlength="4">
+                @if (name?.errors?.['required']) {
+                <mat-error>Name is required</mat-error>
+                }
+                @if (name?.errors?.['minlength']) {
+                <mat-error> Name must be at least 4 characters long.</mat-error>
+                }
+            </mat-form-field>
+            <mat-form-field class="field-full-width">
+                <mat-label>Enter your email</mat-label>
+                <input matInput placeholder="pat@example.com" formControlName="email" required email>
+                @if (email?.errors?.['required']) {
+                <mat-error>Email is required</mat-error>
+                }
+                @if (email?.errors?.['email']) {
+                <mat-error>Invalid email address</mat-error>
+                }
+            </mat-form-field>
+            <mat-form-field class="field-full-width">
+                <mat-label>Enter your address</mat-label>
+                <input matInput formControlName="address" required [matAutocomplete]="auto">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="addressClick($event)">
+                    @for (option of filteredOptions | async; track option) {
+                    <mat-option [value]="option">{{option}}</mat-option>
+                    }
+                </mat-autocomplete>
+                @if (address?.errors?.['required']) {
+                <mat-error>Address is required. <br /><b>NOTE! Pls select from the list of suggestions</b></mat-error>
+                }
+            </mat-form-field>
+            <div style="float:right;">
+                <button style="margin: 10px 10px 10px 0px;" mat-button color="primary"
+                    (click)="addUser()">Submit</button>
+                <button style="margin: 10px 0px;" mat-button (click)="this.dialogRef.close();">Cancel</button>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>
