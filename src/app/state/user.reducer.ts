@@ -4,11 +4,11 @@ import { createFeature, createReducer, on } from "@ngrx/store";
 import { userAction } from "./user.action";
 
 interface UserState extends EntityState<User> {
-    isLoading: boolean;
+    isLoading: boolean; //for spinner
 }
 
 interface AddressState extends EntityState<Address> {
-    isLoading: boolean;
+    isLoading: boolean; //for spinner
 }
 
 const adapterUser = createEntityAdapter<User>();
