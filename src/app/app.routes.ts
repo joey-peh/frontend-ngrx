@@ -14,7 +14,6 @@ export const routes: Routes = [{
     ],
     providers: [
         provideState(userFeature),
-        // provideState(addressSuggestionFeature),
         importProvidersFrom(EffectsModule.forFeature(UserEffects))
     ]
 }];

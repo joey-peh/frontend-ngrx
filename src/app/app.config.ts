@@ -14,7 +14,6 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideHttpClient(),
     provideStore(),
-    // provideEffects([UserEffects]),
     importProvidersFrom(EffectsModule.forRoot(UserEffects))
   ],
 };

@@ -16,12 +16,7 @@ const adapterAddress = createEntityAdapter<Address>({ selectId: (e) => e.propert
 const userInitialState: UserState = adapterUser.getInitialState({ isLoading: false });
 const addressInitialState: AddressState = adapterAddress.getInitialState({ isLoading: false, });
 
-interface InitialState {
-    users: UserState,
-    addressSuggestions: AddressState
-}
-
-const initialState: InitialState = {
+const initialState = {
     users: userInitialState,
     addressSuggestions: addressInitialState
 }
@@ -31,7 +26,6 @@ const reducer = createReducer(initialState,
     on(userAction.getUserList, (state) => ({ ...state, isLoading: true })),
     on(userAction.getUserListSuccess, (state, { payload }) =>
         ({ ...state, users: adapterUser.setAll(payload, { ...state.users, isLoading: false }) })),
-    // on(userAction.getUserListSuccess, (state, { users }) => adapterUser.setAll(users, { ...state, isLoading: false })),
 
     //add one user
     on(userAction.addUser, (state, { payload }) =>
@@ -47,9 +41,6 @@ const reducer = createReducer(initialState,
 );
 
 const feature = createFeature({ name: 'user', reducer });
-
-// export const selectUserState = (state: InitialState) => state.users;
-// export const selectAddressState = (state: InitialState) => state.addressSuggestions;
 
 export const { selectAll: selectAllUsers } = adapterUser.getSelectors(feature.selectUsers);
 export const { selectAll: selectAllAddress } = adapterAddress.getSelectors(feature.selectAddressSuggestions);
