@@ -14,12 +14,10 @@ export class UserEffects {
             exhaustMap(() => {
                 return this.DataService.getAllPerson().pipe(
                     map((payload: User[]) => {
-                        console.log("success");
                         return userAction.getUserListSuccess({ payload })
                     }
                     ),
                     catchError((error: Error) => {
-                        console.log("failure");
                         return of(userAction.failure({ error }))
                     }
                     )

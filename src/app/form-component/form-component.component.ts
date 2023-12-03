@@ -64,8 +64,8 @@ export class FormComponentComponent implements OnInit {
       debounceTime(100),
       distinctUntilChanged(),
     ).subscribe((text: any) => {
-      console.log(text);
-      this.store.dispatch(userAction.getAddressSuggestions({ payload: text }))
+      if (text || text.trim() !== '')
+        this.store.dispatch(userAction.getAddressSuggestions({ payload: text }))
     }
     );
   }
@@ -77,6 +77,7 @@ export class FormComponentComponent implements OnInit {
     }
     if (this.userForm.valid) {
       this.store.dispatch(userAction.addUser({ payload: this.userForm.value as User }));
+      this.userForm.reset();
       this.dialogRef.close();
     }
   }
