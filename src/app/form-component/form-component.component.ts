@@ -50,13 +50,14 @@ export class FormComponentComponent implements OnInit {
     address: new FormControl('', Validators.required)
   });
   filteredOptions?: Observable<string[]> = of([]);
-  options: string[] = [];
   selectedOption?: string;
 
   ngOnInit(): void {
     this.suggestions$.subscribe((data) => {
-      const formatted = of(data.map((x) => x.properties.formatted));
-      this.filteredOptions = formatted;
+      if (this.address?.value && this.address?.value.trim() != '') {
+        //hackish way to not show suggestion list on second creation
+        this.filteredOptions = of(data.map((x) => x.properties.formatted));
+      }
     });
 
     this.address?.valueChanges.pipe(
@@ -64,25 +65,40 @@ export class FormComponentComponent implements OnInit {
       debounceTime(100),
       distinctUntilChanged(),
     ).subscribe((text: any) => {
-      if (text || text.trim() !== '')
+      if (text && text.trim() !== '') {
+        //to prevent search when address field is not valid
         this.store.dispatch(userAction.getAddressSuggestions({ payload: text }))
+      }
     }
     );
   }
 
   addUser(): void {
+    //when user selected from suggestion list
+    //selectedoption should equal to address value
     if (!this.selectedOption || this.selectedOption !== this.address?.value) {
       this.address?.setValue(null);
       this.selectedOption = '';
+      this.filteredOptions = of([]);
     }
+
+    //check if a form is valid
     if (this.userForm.valid) {
+      //add user into state
       this.store.dispatch(userAction.addUser({ payload: this.userForm.value as User }));
-      this.userForm.reset();
+      this.reset();
       this.dialogRef.close();
     }
   }
 
+  reset(): void {
+    this.userForm.reset();
+    this.selectedOption = '';
+    this.filteredOptions = of([]);
+  }
+
   addressClick(event: any): void {
+    //for checks: to force user to select an address from the suggestion list
     this.selectedOption = event.option.value;
   }
 }
