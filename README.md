@@ -1,5 +1,5 @@
 # FrontendAssignment
-
+Hosted on https://shopping-890d2.firebaseapp.com
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.1.
 
 ## Development server
